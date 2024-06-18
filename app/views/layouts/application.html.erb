@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>SimpleDummy</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>MedicalPortal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
@@ -10,7 +10,44 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="container">
-    <%= yield %>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">MedicalPortal</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <%= form_with url: search_path, method: :get do %>
+                <%= text_field_tag :query, params[:query] %>
+                <%= submit_tag 'Search' %>
+              <% end %>
+            </li>
+            <% if current_user %>
+              <li class="nav-item">
+                <% if current_user.receptionist? %>
+                  <%= link_to 'Dashboard', receptionists_dashboard_path, class: "nav-link" %>
+                <% elsif current_user.doctor? %>
+                  <%= link_to 'Dashboard', doctors_dashboard_path, class: "nav-link" %>
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to 'Logout', logout_path, method: :delete, class: "nav-link" %>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to 'Login', login_path, class: "nav-link" %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-4">
+      <%= yield %>
+    </div>
   </body>
 </html>

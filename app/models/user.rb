@@ -25,6 +25,18 @@ class User < ApplicationRecord
 		will_save_change_to_attribute?(:password)
 	end
 
+	def authenticate_over(password)
+		BCrypt::Password.new(self.password) == password
+	end
+
+	def receptionist?
+    self.role == 'receptionist'
+  end
+
+  def doctor?
+    self.role == 'doctor'
+  end
+
 
 	# for This is after save
 	# after_save :encrypt_password

@@ -76,3 +76,5 @@ gem 'jquery-ui-rails'
 gem "bootstrap"
 gem "sassc-rails"
 gem 'bcrypt'
+gem 'elasticsearch-model'
+gem 'elasticsearch-rails'

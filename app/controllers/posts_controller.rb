@@ -1,10 +1,18 @@
 class PostsController < ApplicationController
   before_action :set_post, only: %i[ show edit update destroy ]
-
+  after_action :log_action, only: [:create, :update, :destroy]
   # GET /posts or /posts.json
   def index
     @posts = Post.all
   end
+
+  def search
+    @posts = Post.search(params[:query]).records
+  end
+
+  # def form_search
+  #   @posts = Post.all
+  # end
 
   # GET /posts/1 or /posts/1.json
   def show
@@ -21,7 +29,7 @@ class PostsController < ApplicationController
 
   # POST /posts or /posts.json
   def create
-    @post = Post.new(post_params)
+    @post = current_user.posts.new(post_params)
 
     respond_to do |format|
       if @post.save
@@ -58,6 +66,9 @@ class PostsController < ApplicationController
   end
 
   private
+    def log_action
+      Rails.logger.info "Action #{action_name} was triggered at #{Time.now}"
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_post
       @post = Post.find(params[:id])
