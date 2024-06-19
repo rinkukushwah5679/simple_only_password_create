@@ -1,14 +1,20 @@
-<h1>Search Results</h1>
-<%= form_with url: search_path, method: :get do %>
-  <%= text_field_tag :query, params[:query] %>
-  <%= submit_tag 'Search' %>
-<% end %>
+<%# <h1>Search Results</h1> %>
+<%#= form_with url: search_path, method: :get do %>
+  <%#= text_field_tag :query, params[:query] %>
+  <%#= submit_tag 'Search' %>
+<%# end %>
+<p style="color: green"><%= notice %></p>
 
-<% @posts.each do |post| %>
-  <div>
-    <%#= render partial: "/posts/post", locals: {post: post} %>
-    <%#= post.title%> <%#= post.id%>
+<h1>Possdts</h1>
+
+<div id="posts">
+  <% @posts.each do |post| %>
     <%= render post %>
-  </div>
-<% end %>
+    <p>
+      <%= link_to "Show this post", post %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New post", new_post_path %>
 
