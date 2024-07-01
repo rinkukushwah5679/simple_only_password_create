@@ -16,6 +16,10 @@ class User < ApplicationRecord
 	# 	create_post
 	# end
 
+	def online?
+		updated_at > 5.minutes.ago
+	end
+
 	def encrypt_password
 		self.password = BCrypt::Password.create(self.password)
 	end
